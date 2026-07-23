@@ -698,17 +698,17 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 ### Môi trường & tài khoản
 
-- [ ] Node + Git + Cursor
-- [ ] GitHub repo `mini-nextgpu`
-- [ ] Vercel project connected
-- [ ] MongoDB Atlas cluster + Compass
-- [ ] Clerk application
+- [x] Node + Git + Cursor — Node `v24.18.0`, Git `2.54.0.windows.1`, Cursor
+- [x] GitHub repo — dùng `NEXTGPU-COPY` (không tạo `mini-nextgpu` riêng): https://github.com/hoquan2007/NEXTGPU-COPY
+- [ ] Vercel project connected — tài khoản đã login ([vercel.com/hnquan](https://vercel.com/hnquan)); **chưa** Import repo / chưa có URL deploy
+- [ ] MongoDB Atlas cluster + Compass — để M3
+- [ ] Clerk application — để M2
 - [ ] Supabase project (cho M8)
-- [ ] Postman / Thunder Client
+- [ ] Postman / Thunder Client — để M3+
 
 ### Milestones
 
-- [ ] **M0** Hello Next.js trên Vercel
+- [ ] **M0** Hello Next.js trên Vercel — local + GitHub xong; **chờ deploy Vercel** (xem note bên dưới)
 - [ ] **M1** Landing
 - [ ] **M2** Auth + dashboard trống
 - [ ] **M3** Mongo + `listUserProfile`
@@ -720,14 +720,53 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 - [ ] **M9** i18n + polish
 - [ ] **M10** Map sang source NextGPU thật + giải thích được 1 flow production
 
+### Trạng thái M0 — chi tiết (cập nhật 2026-07-23)
+
+**Đã xong**
+
+| Mục | Chi tiết |
+|-----|----------|
+| Node / Git / Cursor | Máy local sẵn sàng |
+| Repo GitHub | https://github.com/hoquan2007/NEXTGPU-COPY |
+| Scaffold Next.js | Next.js 16 + React 19 + TypeScript + App Router + Tailwind CSS 4 + ESLint (`package.json` name: `nextgpu-copy`) |
+| File env | `.env.local` (placeholder, gitignored) + `.env.example` (commit được, liệt kê key M2+) |
+| `.gitignore` | Có `.env*` và exception `!.env.example` để không lộ secret |
+| Build local | `npm run build` thành công (route `/` static) |
+| Push code | Code scaffold đã / sẽ nằm trên `main` |
+
+**Chưa xong / làm tay**
+
+| Mục | Ai làm | Ghi chú |
+|-----|--------|---------|
+| Import project trên Vercel | **Bạn** | Dashboard → Add New → Project → chọn `NEXTGPU-COPY` → Deploy |
+| URL public `*.vercel.app` | **Bạn** | Paste URL vào chat / vào “Ghi chú cá nhân” → đánh `[x] M0` |
+| Clerk / Mongo / Supabase / Postman | Sau | Không cần cho M0 |
+
+**Giải thích ngắn scaffold (học M0)**
+
+- `package.json` scripts: `dev` = chạy local (`localhost:3000`), `build` = build production, `start` = chạy bản đã build, `lint` = ESLint.
+- `app/layout.tsx` = layout gốc (HTML shell + font + `globals.css`).
+- `app/page.tsx` = trang Home `/` (UI mặc định create-next-app).
+- `.env.local` chỉ trên máy bạn — Vercel sẽ có **Environment Variables** riêng khi cần (M2+). Đừng commit secret; đừng dùng prefix `NEXT_PUBLIC_` cho `MONGODB_URI`.
+
+**Cách Import Vercel (làm tay)**
+
+1. Mở https://vercel.com/hnquan → **Add New… → Project**
+2. Import repo `hoquan2007/NEXTGPU-COPY` (GitHub đã nối)
+3. Framework Preset: **Next.js** — để mặc định → **Deploy**
+4. Copy URL dạng `https://….vercel.app` → báo lại trong chat hoặc điền bên dưới
+5. Sau khi có URL: đánh `[x]` dòng Vercel + `[x] **M0**`, điền Link Vercel
+
 ### Ghi chú cá nhân (điền tay)
 
 ```text
-Ngày bắt đầu:
-Milestone hiện tại:
-Blocker gần nhất:
-Link Vercel:
-Link GitHub clone:
+Ngày bắt đầu: 2026-07-23
+Milestone hiện tại: M0 (local + GitHub xong; chờ Vercel URL)
+Blocker gần nhất: Chưa Import/Deploy trên Vercel Dashboard
+Link Vercel: (chưa có — paste sau khi Deploy)
+Link GitHub clone: https://github.com/hoquan2007/NEXTGPU-COPY
+Tài khoản Vercel: https://vercel.com/hnquan
+Tài khoản GitHub: https://github.com/hoquan2007
 ```
 
 ---
