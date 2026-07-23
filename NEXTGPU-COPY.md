@@ -236,7 +236,8 @@ flowchart TB
   M1 --> M2[M2: Auth Clerk]
   M2 --> M3[M3: MongoDB + API profile]
   M3 --> M4[M4: Pattern Service + Hook + React Query]
-  M4 --> M5[M5: List máy + Dashboard shell]
+  M4 --> M45[M4.5: Landing Visual Refresh]
+  M45 --> M5[M5: List máy + Dashboard shell]
   M5 --> M6[M6: Thuê / Dừng + số dư]
   M6 --> M7[M7: Transactions + Rating]
   M7 --> M8[M8: Storage đơn giản Supabase]
@@ -395,6 +396,27 @@ src/
 **Trên Dashboard Overview:** hiện `creditBalance` + nút Refresh.
 
 **Done khi:** Đổi balance trong MongoDB Compass → bấm Refresh (hoặc đợi staleTime) → UI cập nhật.
+
+---
+
+### Milestone 4.5 — Landing Visual Refresh (full effects)
+
+**Mục tiêu:** Landing marketing “nặng & đẹp” (video, particle, terminal, typewriter, reveal) — brand **MiniNextGPU** + CTA Clerk. Làm **sau M4, trước M5**.
+
+**Đã chọn (theo yêu cầu học viên):** giữ gần như **toàn bộ hiệu ứng** của mẫu CORE (không cắt video / particle / Iconify).
+
+**Làm gì:**
+
+1. `LandingPage` client: nav scroll, parallax video, IntersectionObserver reveal, typewriter, particles, isometric cards.
+2. Font landing: Space Grotesk + JetBrains Mono (`next/font`) — không `@import` Google trong CSS.
+3. `@iconify/react` cho icon.
+4. Video: đặt `public/video.mp4` (xem `public/VIDEO.txt`); nếu thiếu → mesh fallback động.
+5. Clerk: `HeaderAuth` trên nav; CTA Sign up / Login / Dashboard.
+6. Dashboard vẫn dùng palette sáng (globals) — landing CSS tách `landing.css`.
+
+**Done khi:** `/` hiện theme tối full-effect; Clerk hoạt động; build OK; (tuỳ chọn) có `video.mp4`.
+
+**Note chat mới:** *“Đã xong M4.5 full landing. Tiếp M5 dashboard shell.”*
 
 ---
 
@@ -719,6 +741,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 - [x] **M2** Auth + dashboard trống — Done: Clerk linked + keys; Login/Sign up/Dashboard/Logout
 - [x] **M3** Mongo + `listUserProfile` — Done: Atlas URI OK, ping OK, APIs + seed
 - [x] **M4** Service + Hook + React Query — Done: Axios + `useUserBalance` + Refresh trên Dashboard
+- [x] **M4.5** Landing Visual Refresh — Done: full effects (video/particle/terminal/typewriter) + MiniNextGPU + Clerk
 - [ ] **M5** Machines list + dashboard shell
 - [ ] **M6** Thuê / dừng + số dư
 - [ ] **M7** Transactions + rating
@@ -864,6 +887,35 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 | Mục | Milestone |
 |-----|-----------|
+| Landing Visual Refresh | M4.5 — Done (xem mục dưới) |
+| Dashboard shell + UI list máy | M5 |
+| Thuê / dừng + mutation invalidate | M6 |
+
+### Trạng thái M4.5 — chi tiết (cập nhật 2026-07-24) — **DONE** (full effects)
+
+**Đã xong**
+
+| Mục | Chi tiết |
+|-----|----------|
+| Entry | `app/page.tsx` → `LandingPage` |
+| Effects | Video hero + parallax, particles, reveal, typewriter, terminal UI, cards hover |
+| CSS | `src/components/home/landing.css` (tách khỏi dashboard sáng) |
+| Fonts | Space Grotesk + JetBrains Mono (`next/font`) |
+| Icons | `@iconify/react` |
+| Auth | `HeaderAuth` trên nav + CTA `/sign-in` `/sign-up` |
+| Video | `public/video.mp4` (user thêm file); chưa có → mesh fallback |
+| Build | `npm run build` OK |
+
+**Cách bạn tự verify**
+
+1. `npm run dev` → `/` — theme tối, particle, terminal typewriter.
+2. Thả file MP4 vào `public/video.mp4` → hard refresh → thấy video nền.
+3. Login/Sign up Clerk vẫn hoạt động; Dashboard sáng riêng.
+
+**Chưa làm (milestone sau)**
+
+| Mục | Milestone |
+|-----|-----------|
 | Dashboard shell + UI list máy | M5 |
 | Thuê / dừng + mutation invalidate | M6 |
 
@@ -871,7 +923,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 ```text
 Ngày bắt đầu: 2026-07-23
-Milestone hiện tại: M4 Done → sẵn sàng M5 (Machines + dashboard shell)
+Milestone hiện tại: M4.5 Done → sẵn sàng M5 (Machines + dashboard shell)
 Blocker gần nhất: (không) — nhớ thêm MONGODB_URI trên Vercel khi deploy production
 Link Vercel: https://nextgpu-copy.vercel.app/
 Link GitHub clone: https://github.com/hoquan2007/NEXTGPU-COPY
@@ -901,7 +953,7 @@ Sau đó: chuyển sang task thật trên `nextGPU-assets` với mentor — bug 
 **Mục đích:** Học web bằng mini clone NextGPU → hiểu project công ty.  
 **Stack học:** Next.js + TypeScript + Tailwind + Clerk + MongoDB Atlas + Vercel + Supabase Storage.  
 **Pattern vàng:** `hooks → services → api-endpoints → axios`.  
-**Thứ tự:** M0 môi trường → Landing → Auth → DB/API → React Query → Machines → Rent/Stop → Billing/Rating → Storage → i18n → Đọc code thật.  
+**Thứ tự:** M0 môi trường → Landing → Auth → DB/API → React Query → Landing Refresh (M4.5) → Machines → Rent/Stop → Billing/Rating → Storage → i18n → Đọc code thật.  
 **Không làm sớm:** Vast.ai, multipart S3, Locomotive, dual gateway, static export.  
 **Học cách làm:** luôn giải thích *vì sao* + comment chi tiết trong code (rule `.cursor/rules/learning-explain-and-comment.mdc`).  
 **Chat mới:** `@NEXTGPU-COPY.md` + nói milestone hiện tại.

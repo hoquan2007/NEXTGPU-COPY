@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.5.22",
+    "@iconify/react": "^6.0.2",
     "@tanstack/react-query": "^5.101.4",
     "axios": "^1.18.1",
     "mongodb": "^7.5.0",

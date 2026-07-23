@@ -1,0 +1,160 @@
+/**
+ * landing.css — Style full-effect cho Landing M4.5 (theme tối / terminal).
+ * Tách file riêng để không “bẩn” globals của Dashboard (vẫn sáng).
+ *
+ * Milestone: M4.5 Landing Visual Refresh (full effects).
+ */
+
+.landing-root {
+  --ln-bg: #080b0e;
+  --ln-panel: #11161b;
+  --ln-card: #161d24;
+  --ln-border: #222c37;
+  --ln-cyan: #00f0ff;
+  --ln-sky: #38bdf8;
+  --ln-amber: #ffb03a;
+  --ln-amber-hot: #f59e0b;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  background-color: var(--ln-bg);
+  color: #e2e8f0;
+  scroll-behavior: smooth;
+}
+
+.landing-root .font-mono {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+.landing-root ::selection {
+  background: var(--ln-amber-hot);
+  color: var(--ln-bg);
+}
+
+.landing-terminal-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(34, 44, 55, 0.15) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 44, 55, 0.15) 1px, transparent 1px);
+}
+
+.landing-ambient-lamp {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 176, 58, 0.08) 0%,
+    rgba(56, 189, 248, 0.02) 45%,
+    transparent 70%
+  );
+}
+
+.landing-keycap-glow {
+  box-shadow:
+    0 0 30px rgba(0, 240, 255, 0.15),
+    inset 0 0 15px rgba(0, 240, 255, 0.05);
+}
+
+.landing-keycap-glow:hover {
+  box-shadow:
+    0 0 45px rgba(255, 176, 58, 0.25),
+    inset 0 0 20px rgba(255, 176, 58, 0.1);
+}
+
+.landing-code-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.landing-code-reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.landing-cursor-blink::after {
+  content: "|";
+  animation: landing-blink 1s step-end infinite;
+}
+
+@keyframes landing-blink {
+  from,
+  to {
+    color: transparent;
+  }
+  50% {
+    color: #38bdf8;
+  }
+}
+
+.landing-isometric-card {
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.landing-isometric-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: rgba(255, 176, 58, 0.3);
+}
+
+.landing-particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: #00f0ff;
+  box-shadow:
+    0 0 10px rgba(0, 240, 255, 0.65),
+    0 0 18px rgba(0, 240, 255, 0.35);
+  pointer-events: none;
+  animation-name: landing-drift-down;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes landing-drift-down {
+  0% {
+    transform: translateY(-10vh) translateX(0) scale(0.85);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  88% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(115vh) translateX(24px) scale(1.05);
+    opacity: 0;
+  }
+}
+
+/* Fallback khi chưa có /video.mp4 — mesh động giống “video nền” */
+.landing-video-fallback {
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(56, 189, 248, 0.25), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 20% 70%, rgba(255, 176, 58, 0.12), transparent 50%),
+    linear-gradient(135deg, #0a1016 0%, #0f1a22 45%, #081018 100%);
+  animation: landing-fallback-shift 14s ease-in-out infinite alternate;
+}
+
+@keyframes landing-fallback-shift {
+  from {
+    filter: hue-rotate(0deg) brightness(1);
+    transform: scale(1);
+  }
+  to {
+    filter: hue-rotate(12deg) brightness(1.08);
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-particle,
+  .landing-video-fallback,
+  .landing-code-reveal {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .landing-code-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

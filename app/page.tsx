@@ -1,28 +1,13 @@
 /**
- * page.tsx — Trang Home `/` (Landing).
+ * page.tsx — Trang Home `/`.
  *
- * Vì sao tách Header / Hero / Benefits / Footer thành component riêng?
- * - Giống cấu trúc NextGPU thật: `src/components/layout/*` + `src/components/home/*`.
- * - Mỗi file một trách nhiệm → dễ đọc, dễ sửa khi làm M2+.
+ * M4.5: Landing full-effect (video / particle / terminal / typewriter).
+ * Component cũ Hero/Benefits/Header vẫn giữ trong repo để học so sánh.
  *
- * Milestone: M1 Landing (tĩnh, chưa Auth/Clerk).
+ * Milestone: M4.5 Landing Visual Refresh (full).
  */
-import { Benefits } from "@/src/components/home/Benefits";
-import { Hero } from "@/src/components/home/Hero";
-import { Footer } from "@/src/components/layout/Footer";
-import { Header } from "@/src/components/layout/Header";
+import { LandingPage } from "@/src/components/home/LandingPage";
 
 export default function Home() {
-  return (
-    <>
-      {/* Header absolute đè lên Hero — không đẩy nội dung xuống */}
-      <Header />
-      <main className="flex-1">
-        {/* Hero = nửa trên (viewport đầu); Benefits = section cuộn xuống */}
-        <Hero />
-        <Benefits />
-      </main>
-      <Footer />
-    </>
-  );
+  return <LandingPage />;
 }

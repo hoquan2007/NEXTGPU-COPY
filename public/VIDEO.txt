@@ -1,0 +1,7 @@
+# public/video.mp4 — Video nền Hero (Landing M4.5)
+#
+# Đặt file MP4 tại đây với đúng tên: video.mp4
+# (muted + loop + autoplay trên browser — file không quá nặng, ~5–15MB là ổn)
+#
+# Khi chưa có file: Hero dùng mesh gradient động (fallback), vẫn đẹp.
+# Sau khi thêm file: hard refresh (Ctrl+Shift+R) để thấy video.

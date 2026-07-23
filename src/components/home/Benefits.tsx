@@ -1,14 +1,13 @@
 /**
- * Benefits.tsx — Section 3 lợi ích (text only).
+ * Benefits.tsx — Section 3 lợi ích (text-first) + reveal khi scroll.
  *
- * Vì sao không dùng Card có shadow/border?
- * - M1 chỉ cần đọc được nội dung; card phức tạp dễ thành “dashboard UI”.
- * - id="benefits" để Header/CTA `#benefits` cuộn tới đúng chỗ.
+ * M4.5: Reveal wrapper + số thứ tự nhẹ + scroll-mt lớn hơn (header fixed).
+ * Vẫn không dùng card shadow nặng kiểu marketing cyber.
  *
- * Milestone: M1.
+ * Milestone: M1 → M4.5 Visual Refresh.
  */
+import { Reveal } from "@/src/components/home/Reveal";
 
-/** Data tĩnh — sau này (M5+) có thể lấy từ CMS/API nếu cần. */
 const benefits = [
   {
     title: "Giá theo giờ",
@@ -29,29 +28,36 @@ const benefits = [
 
 export function Benefits() {
   return (
-    // scroll-mt-8: khi nhảy #benefits, chừa khoảng để không bị header che (nếu sticky sau này)
-    <section id="benefits" className="scroll-mt-8 bg-background py-20 sm:py-28">
+    // scroll-mt-24: chừa chỗ header fixed khi nhảy #benefits
+    <section id="benefits" className="scroll-mt-24 bg-background py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <h2 className="font-[family-name:var(--font-syne)] text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Vì sao dùng MiniNextGPU
-        </h2>
-        <p className="mt-3 max-w-xl text-muted">
-          Ba điểm cốt lõi của bản clone học tập — đủ để hiểu luồng thuê GPU cloud.
-        </p>
-        {/*
-          map(): biến mảng benefits → danh sách <li>.
-          key={item.title}: React cần key ổn định khi render list.
-          sm:grid-cols-3: mobile 1 cột, desktop 3 cột.
-        */}
+        <Reveal>
+          <p className="text-sm font-medium uppercase tracking-wide text-accent">
+            Lợi ích
+          </p>
+          <h2 className="mt-3 font-[family-name:var(--font-syne)] text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Vì sao dùng MiniNextGPU
+          </h2>
+          <p className="mt-3 max-w-xl text-muted">
+            Ba điểm cốt lõi của bản clone học tập — đủ để hiểu luồng thuê GPU
+            cloud.
+          </p>
+        </Reveal>
+
         <ul className="mt-14 grid gap-12 sm:grid-cols-3 sm:gap-10">
-          {benefits.map((item) => (
+          {benefits.map((item, index) => (
             <li key={item.title}>
-              <h3 className="font-[family-name:var(--font-syne)] text-xl font-semibold text-foreground">
-                {item.title}
-              </h3>
-              <p className="mt-3 text-[0.95rem] leading-relaxed text-muted">
-                {item.description}
-              </p>
+              <Reveal delayMs={index * 100}>
+                <p className="font-[family-name:var(--font-syne)] text-sm font-semibold tabular-nums text-accent/80">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-3 font-[family-name:var(--font-syne)] text-xl font-semibold text-foreground">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-muted">
+                  {item.description}
+                </p>
+              </Reveal>
             </li>
           ))}
         </ul>

@@ -1,52 +1,48 @@
 /**
  * layout.tsx — Layout gốc của toàn bộ app (App Router).
  *
- * Vì sao cần file này?
- * - Mọi trang đều bọc trong layout này: thẻ <html>, <body>, font, CSS chung.
- * - Metadata (title/description) giúp tab trình duyệt và SEO có tên MiniNextGPU.
- *
- * Milestone: M1 Landing → M2 Auth (ClerkProvider) → M4 (QueryProvider).
+ * Milestone: M1 Landing → M2 Auth → M4 Query → M4.5 fonts landing (Space Grotesk / JetBrains).
  */
 import type { Metadata } from "next";
-// ClerkProvider: cung cấp session/auth context cho mọi component con (client + server).
 import { ClerkProvider } from "@clerk/nextjs";
-// next/font/google: tải font từ Google, tối ưu (self-host) — tránh layout shift.
-import { DM_Sans, Syne } from "next/font/google";
-// QueryProvider: bọc React Query — đặt *trong* Clerk để hook dùng cả auth + cache.
+import { DM_Sans, JetBrains_Mono, Space_Grotesk, Syne } from "next/font/google";
 import { QueryProvider } from "@/src/provider/QueryProvider";
 import "./globals.css";
 
-/**
- * Syne = font display (chữ to, brand).
- * `variable` tạo CSS variable --font-syne để dùng trong className / globals.css.
- */
+/** Syne — display (dashboard / legacy). */
 const syne = Syne({
   variable: "--font-syne",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
 });
 
-/** DM Sans = font chữ đọc thường (đoạn văn, nút, nav). */
+/** DM Sans — body dashboard. */
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
 
-/** Metadata mặc định cho trang — hiện trên tab browser. */
+/** Space Grotesk — landing full-effect (M4.5). */
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+/** JetBrains Mono — terminal / nav mono trên landing. */
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
+
 export const metadata: Metadata = {
   title: "MiniNextGPU — Thuê GPU cloud",
   description:
     "Mini clone học tập của NextGPU: thuê GPU cloud giả lập để học web full-stack.",
 };
 
-/**
- * RootLayout nhận `children` = nội dung từng trang (vd. page.tsx).
- * lang="vi" vì landing đang viết tiếng Việt (M9 sẽ thêm i18n).
- *
- * ClerkProvider đặt *trong* <body> (rule Clerk hiện tại):
- * không wrap ngoài <html>/<body> để tránh lỗi hydration / HTML invalid.
- */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -55,15 +51,9 @@ export default function RootLayout({
   return (
     <html
       lang="vi"
-      // Gắn CSS variables của 2 font lên <html> để toàn app dùng được.
-      className={`${syne.variable} ${dmSans.variable} h-full antialiased`}
+      className={`${syne.variable} ${dmSans.variable} ${spaceGrotesk.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      {/* flex-col + min-h-full: footer có thể nằm cuối trang khi nội dung ngắn */}
-      <body className="min-h-full flex flex-col font-sans">
-        {/*
-          afterSignOutUrl: sau Logout về landing.
-          QueryProvider nằm trong ClerkProvider: useUserBalance cần useAuth + useQuery.
-        */}
+      <body className="flex min-h-full flex-col font-sans">
         <ClerkProvider afterSignOutUrl="/">
           <QueryProvider>{children}</QueryProvider>
         </ClerkProvider>
