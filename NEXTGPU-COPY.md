@@ -718,7 +718,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 - [x] **M1** Landing — Done: Header + Hero + Benefits + Footer (`src/components/`)
 - [x] **M2** Auth + dashboard trống — Done: Clerk linked + keys; Login/Sign up/Dashboard/Logout
 - [x] **M3** Mongo + `listUserProfile` — Done: Atlas URI OK, ping OK, APIs + seed
-- [ ] **M4** Service + Hook + React Query
+- [x] **M4** Service + Hook + React Query — Done: Axios + `useUserBalance` + Refresh trên Dashboard
 - [ ] **M5** Machines list + dashboard shell
 - [ ] **M6** Thuê / dừng + số dư
 - [ ] **M7** Transactions + rating
@@ -804,8 +804,8 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 | Mục | Milestone |
 |-----|-----------|
-| MongoDB + `listUserProfile` / số dư | M3 — code sẵn, chờ URI |
-| React Query + service/hook | M4 |
+| MongoDB + `listUserProfile` / số dư | M3 — Done |
+| React Query + service/hook | M4 — Done |
 
 ### Trạng thái M3 — chi tiết (cập nhật 2026-07-23) — **DONE**
 
@@ -835,14 +835,43 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 | Mục | Milestone |
 |-----|-----------|
-| Axios + Service + Hook + React Query | M4 |
+| Axios + Service + Hook + React Query | M4 — Done (xem mục dưới) |
 | Dashboard shell + UI list máy | M5 |
+
+### Trạng thái M4 — chi tiết (cập nhật 2026-07-24) — **DONE**
+
+**Đã xong**
+
+| Mục | Chi tiết |
+|-----|----------|
+| Packages | `axios`, `@tanstack/react-query` |
+| Endpoints | `src/common/api-endpoints.ts` — `LIST_USER_PROFILE` |
+| Query keys | `src/common/query-keys.ts` — `userKeys.balance()` |
+| Axios | `src/lib/axios.ts` — `baseURL: ""` (same-origin) |
+| Service | `src/services/user.service.ts` — `getUserProfile(token)` + Bearer |
+| Hook | `src/hooks/user/useUserBalance.ts` — `staleTime` 30s, `refetch` |
+| Provider | `src/provider/QueryProvider.tsx` trong `ClerkProvider` |
+| UI | `UserBalanceCard` trên `/dashboard` — số dư + nút Refresh |
+| Build | `npm run build` OK |
+
+**Cách bạn tự verify (Done criteria M4)**
+
+1. `npm run dev` → Login → `/dashboard` thấy số dư (qua API, không đọc Mongo ở page).
+2. MongoDB Compass: sửa `balance` của user → bấm **Refresh** → UI đổi ngay.
+3. Trong ~30s không bấm Refresh: React Query coi data còn “tươi” (`staleTime`).
+
+**Chưa làm (milestone sau)**
+
+| Mục | Milestone |
+|-----|-----------|
+| Dashboard shell + UI list máy | M5 |
+| Thuê / dừng + mutation invalidate | M6 |
 
 ### Ghi chú cá nhân (điền tay)
 
 ```text
 Ngày bắt đầu: 2026-07-23
-Milestone hiện tại: M3 Done → sẵn sàng M4 (React Query)
+Milestone hiện tại: M4 Done → sẵn sàng M5 (Machines + dashboard shell)
 Blocker gần nhất: (không) — nhớ thêm MONGODB_URI trên Vercel khi deploy production
 Link Vercel: https://nextgpu-copy.vercel.app/
 Link GitHub clone: https://github.com/hoquan2007/NEXTGPU-COPY

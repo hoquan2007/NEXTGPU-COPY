@@ -5,13 +5,15 @@
  * - Mọi trang đều bọc trong layout này: thẻ <html>, <body>, font, CSS chung.
  * - Metadata (title/description) giúp tab trình duyệt và SEO có tên MiniNextGPU.
  *
- * Milestone: M1 Landing → M2 Auth (thêm ClerkProvider).
+ * Milestone: M1 Landing → M2 Auth (ClerkProvider) → M4 (QueryProvider).
  */
 import type { Metadata } from "next";
 // ClerkProvider: cung cấp session/auth context cho mọi component con (client + server).
 import { ClerkProvider } from "@clerk/nextjs";
 // next/font/google: tải font từ Google, tối ưu (self-host) — tránh layout shift.
 import { DM_Sans, Syne } from "next/font/google";
+// QueryProvider: bọc React Query — đặt *trong* Clerk để hook dùng cả auth + cache.
+import { QueryProvider } from "@/src/provider/QueryProvider";
 import "./globals.css";
 
 /**
@@ -60,9 +62,11 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans">
         {/*
           afterSignOutUrl: sau Logout về landing.
-          (API mới: prop này nằm trên ClerkProvider, không còn trên UserButton.)
+          QueryProvider nằm trong ClerkProvider: useUserBalance cần useAuth + useQuery.
         */}
-        <ClerkProvider afterSignOutUrl="/">{children}</ClerkProvider>
+        <ClerkProvider afterSignOutUrl="/">
+          <QueryProvider>{children}</QueryProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
