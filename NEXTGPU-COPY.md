@@ -707,17 +707,17 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 - [x] Node + Git + Cursor — Node `v24.18.0`, Git `2.54.0.windows.1`, Cursor
 - [x] GitHub repo — dùng `NEXTGPU-COPY` (không tạo `mini-nextgpu` riêng): https://github.com/hoquan2007/NEXTGPU-COPY
 - [x] Vercel project connected — https://nextgpu-copy.vercel.app/ (dashboard: [vercel.com/hnquan](https://vercel.com/hnquan))
-- [ ] MongoDB Atlas cluster + Compass — để M3
+- [x] MongoDB Atlas cluster + Compass — Cluster0 connected; DB `mini_nextgpu` (users + machines seeded)
 - [x] Clerk application — `learn to do wed` (`app_3Gu49bCAnxZ9i41dg129kAbuFlb`), keys trong `.env.local` via `clerk init`
 - [ ] Supabase project (cho M8)
-- [ ] Postman / Thunder Client — để M3+
+- [ ] Postman / Thunder Client — tuỳ chọn (API đã trả 401 khi chưa login)
 
 ### Milestones
 
 - [x] **M0** Hello Next.js trên Vercel — Done: https://nextgpu-copy.vercel.app/
 - [x] **M1** Landing — Done: Header + Hero + Benefits + Footer (`src/components/`)
 - [x] **M2** Auth + dashboard trống — Done: Clerk linked + keys; Login/Sign up/Dashboard/Logout
-- [ ] **M3** Mongo + `listUserProfile`
+- [x] **M3** Mongo + `listUserProfile` — Done: Atlas URI OK, ping OK, APIs + seed
 - [ ] **M4** Service + Hook + React Query
 - [ ] **M5** Machines list + dashboard shell
 - [ ] **M6** Thuê / dừng + số dư
@@ -804,20 +804,52 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 | Mục | Milestone |
 |-----|-----------|
-| MongoDB + `listUserProfile` / số dư | M3 |
+| MongoDB + `listUserProfile` / số dư | M3 — code sẵn, chờ URI |
 | React Query + service/hook | M4 |
+
+### Trạng thái M3 — chi tiết (cập nhật 2026-07-23) — **DONE**
+
+**Đã xong**
+
+| Mục | Chi tiết |
+|-----|----------|
+| Package | `mongodb` (official driver) |
+| Connect singleton | `src/lib/mongodb.ts` — DB `mini_nextgpu` |
+| Types | `src/types/db.ts` — users / machines / rentals / transactions |
+| Seed user | `src/lib/user-profile.ts` — balance khởi tạo `100000` |
+| Seed machines | `src/lib/machines.ts` — 3 GPU mẫu |
+| API profile | `GET /api/listUserProfile` — 401 khi chưa login (đã verify) |
+| API machines | `GET /api/listMachine` — 401 khi chưa login (đã verify) |
+| Atlas | `MONGODB_URI` trong `.env.local` — `node scripts/test-mongo.mjs` → **CONNECT OK** |
+| Data | Collections `users` + `machines` đã có document |
+| Dashboard | Hiện số dư từ Mongo sau khi login |
+| Build / Dev | `npm run build` OK; `npm run dev` đang chạy `:3000` |
+
+**Cách bạn tự verify trên browser**
+
+1. Mở http://localhost:3000 → Login Clerk → `/dashboard`
+2. Thấy **Số dư ví: 100.000 VND** (user Clerk thật sẽ được tạo document riêng, khác user seed test)
+3. (Tuỳ chọn) http://localhost:3000/api/listUserProfile khi đã login → JSON có `balance`
+
+**Chưa làm (milestone sau)**
+
+| Mục | Milestone |
+|-----|-----------|
+| Axios + Service + Hook + React Query | M4 |
+| Dashboard shell + UI list máy | M5 |
 
 ### Ghi chú cá nhân (điền tay)
 
 ```text
 Ngày bắt đầu: 2026-07-23
-Milestone hiện tại: M2 Done → sẵn sàng M3 Mongo
-Blocker gần nhất: (không) — nhớ thêm Clerk env trên Vercel trước khi test production login
+Milestone hiện tại: M3 Done → sẵn sàng M4 (React Query)
+Blocker gần nhất: (không) — nhớ thêm MONGODB_URI trên Vercel khi deploy production
 Link Vercel: https://nextgpu-copy.vercel.app/
 Link GitHub clone: https://github.com/hoquan2007/NEXTGPU-COPY
 Tài khoản Vercel: https://vercel.com/hnquan
 Tài khoản GitHub: https://github.com/hoquan2007
 Clerk app: learn to do wed (app_3Gu49bCAnxZ9i41dg129kAbuFlb)
+MongoDB: Cluster0 — db mini_nextgpu
 ```
 
 ---

@@ -5,11 +5,13 @@
  * - Next.js 16 đổi convention: middleware.ts → proxy.ts (cùng vai trò mạng/edge routing).
  * - Clerk vẫn export `clerkMiddleware` — chỉ đổi tên file theo version Next.
  *
- * Việc làm ở đây (M2):
- * - Landing `/` + `/sign-in` + `/sign-up` = công khai (chưa login vẫn vào được).
- * - `/dashboard` = bắt buộc đăng nhập (`auth.protect()` → redirect sign-in nếu chưa login).
+ * Việc làm:
+ * - Landing `/` + `/sign-in` + `/sign-up` = công khai.
+ * - `/api/*` = KHÔNG `auth.protect()` ở đây — để Route Handler tự trả **401 JSON**
+ *   (đúng REST; Postman/Thunder không bị redirect HTML sang /sign-in).
+ * - Các trang khác (vd. `/dashboard`) = `auth.protect()` → redirect sign-in nếu chưa login.
  *
- * Milestone: M2 Auth Clerk.
+ * Milestone: M2 Auth → M3 API (401 JSON).
  */
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
@@ -20,11 +22,19 @@ const isPublicRoute = createRouteMatcher([
   "/sign-up(.*)",
 ]);
 
+/**
+ * API routes: vẫn chạy clerkMiddleware (để đọc cookie/Bearer),
+ * nhưng không protect/redirect — handler tự quyết 401/200.
+ */
+const isApiRoute = createRouteMatcher(["/api(.*)"]);
+
 export default clerkMiddleware(async (auth, req) => {
-  // Chưa public → bắt buộc có session Clerk; không có thì redirect /sign-in.
-  if (!isPublicRoute(req)) {
-    await auth.protect();
+  if (isPublicRoute(req) || isApiRoute(req)) {
+    return;
   }
+
+  // Trang app (dashboard…) — chưa login thì redirect /sign-in.
+  await auth.protect();
 });
 
 /**
