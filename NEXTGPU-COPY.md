@@ -1,4 +1,4 @@
-# NEXTGPU-COPY — Chiến lược học Web bằng cách làm bản sao NextGPU
+# NEXTGPU-COPY — Chiến lược học Web bằng cách làm bản sao NextGPU 
 
 > **Dành cho:** Thực tập sinh / người mới làm web lần đầu.  
 > **Mục đích:** Khi mở đoạn chat mới, đọc file này là hiểu ngay: chúng ta đang học gì, làm gì, dùng gì, và bước tiếp theo là gì.  
