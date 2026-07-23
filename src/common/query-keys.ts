@@ -16,3 +16,13 @@ export const userKeys = {
   /** Key cụ thể cho số dư / profile từ listUserProfile. */
   balance: () => [...userKeys.all, "balance"] as const,
 };
+
+/**
+ * Keys máy GPU — M6 sẽ invalidate sau thuê/dừng:
+ * `invalidateQueries({ queryKey: machineKeys.all })`.
+ */
+export const machineKeys = {
+  all: ["machine"] as const,
+  /** Danh sách từ GET /api/listMachine. */
+  list: () => [...machineKeys.all, "list"] as const,
+};

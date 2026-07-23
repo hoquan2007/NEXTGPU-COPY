@@ -8,8 +8,10 @@
  * Milestone: M4 Axios + Service + Hook + React Query.
  */
 
-/** Hằng số path — thêm endpoint mới (listMachine, deduct…) ở đây khi tới M5+. */
+/** Hằng số path — thêm endpoint mới (deduct…) ở đây khi tới M6+. */
 export const API_ENDPOINTS = {
   /** GET — profile + số dư user đang login (đã làm API ở M3). */
   LIST_USER_PROFILE: "/api/listUserProfile",
+  /** GET — danh sách máy GPU từ Mongo (API M3, UI M5). */
+  LIST_MACHINE: "/api/listMachine",
 } as const;

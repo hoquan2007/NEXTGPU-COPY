@@ -5,10 +5,10 @@
  * - Giống dashboard thật: chỉ user đã login mới xem máy để thuê.
  * - Postman vẫn test được bằng Bearer token (cùng cách listUserProfile).
  *
+ * Response: `{ success: true, machines: [...] }` — khớp spec M5.
  * Tên path bắt chước endpoint thật: `/listMachine`.
- * UI list đầy đủ = Milestone 5; M3 chỉ cần API + seed chạy được.
  *
- * Milestone: M3 MongoDB Atlas + API.
+ * Milestone: M3 API → M5 UI list máy.
  */
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -37,7 +37,8 @@ export async function GET() {
       rentedBy: m.rentedBy ?? null,
     }));
 
-    return NextResponse.json({ machines: payload });
+    // `success` giúp client/service biết payload ổn (giống pattern API thật).
+    return NextResponse.json({ success: true, machines: payload });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
     console.error("[listMachine]", message);

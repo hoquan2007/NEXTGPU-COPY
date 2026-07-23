@@ -742,7 +742,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 - [x] **M3** Mongo + `listUserProfile` — Done: Atlas URI OK, ping OK, APIs + seed
 - [x] **M4** Service + Hook + React Query — Done: Axios + `useUserBalance` + Refresh trên Dashboard
 - [x] **M4.5** Landing Visual Refresh — Done: full effects (video/particle/terminal/typewriter) + MiniNextGPU + Clerk
-- [ ] **M5** Machines list + dashboard shell
+- [x] **M5** Machines list + dashboard shell — Done: sidebar + nested routes + `useMachines` + list từ Mongo
 - [ ] **M6** Thuê / dừng + số dư
 - [ ] **M7** Transactions + rating
 - [ ] **M8** Storage Supabase
@@ -859,7 +859,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 | Mục | Milestone |
 |-----|-----------|
 | Axios + Service + Hook + React Query | M4 — Done (xem mục dưới) |
-| Dashboard shell + UI list máy | M5 |
+| Dashboard shell + UI list máy | M5 — Done (xem mục M5) |
 
 ### Trạng thái M4 — chi tiết (cập nhật 2026-07-24) — **DONE**
 
@@ -888,7 +888,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 | Mục | Milestone |
 |-----|-----------|
 | Landing Visual Refresh | M4.5 — Done (xem mục dưới) |
-| Dashboard shell + UI list máy | M5 |
+| Dashboard shell + UI list máy | M5 — Done (xem mục M5) |
 | Thuê / dừng + mutation invalidate | M6 |
 
 ### Trạng thái M4.5 — chi tiết (cập nhật 2026-07-24) — **DONE** (full effects)
@@ -916,14 +916,41 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 | Mục | Milestone |
 |-----|-----------|
-| Dashboard shell + UI list máy | M5 |
 | Thuê / dừng + mutation invalidate | M6 |
+
+### Trạng thái M5 — chi tiết (cập nhật 2026-07-24) — **DONE**
+
+**Đã xong**
+
+| Mục | Chi tiết |
+|-----|----------|
+| Shell | `app/dashboard/layout.tsx` + `DashboardSidebar` (Overview / Machines / My Machines / Billing) |
+| Routes | `/dashboard` → redirect overview; nested: overview, machines, mymachines, billing |
+| API | `GET /api/listMachine` trả `{ success, machines }`; seed idempotent 7 máy theo `name` |
+| Pipeline | `API_ENDPOINTS.LIST_MACHINE` → `machine.service` → `useMachines` → `MachineList` |
+| UI | Bảng (desktop) / list (mobile): tên, GPU, giá/giờ, status; nút Thuê disabled (stub M6) |
+| My Machines | Filter client `rented` + `rentedBy === clerkId`; empty state trước M6 |
+| Billing | Stub text (M7) |
+| Build | `npm run build` OK — routes dashboard nested có trong output |
+
+**Cách bạn tự verify**
+
+1. `npm run dev` → login → `/dashboard` redirect `/dashboard/overview` (số dư + sidebar).
+2. Tab Machines → thấy ≥5 máy; Network: `GET /api/listMachine` 200 + `success: true`.
+3. Nút Thuê disabled; My Machines trống (chưa thuê); Billing hiện stub.
+
+**Chưa làm (milestone sau)**
+
+| Mục | Milestone |
+|-----|-----------|
+| Thuê / dừng + trừ tiền + invalidate cache | M6 |
+| Transactions + rating | M7 |
 
 ### Ghi chú cá nhân (điền tay)
 
 ```text
 Ngày bắt đầu: 2026-07-23
-Milestone hiện tại: M4.5 Done → sẵn sàng M5 (Machines + dashboard shell)
+Milestone hiện tại: M5 Done → sẵn sàng M6 (Thuê / dừng + số dư)
 Blocker gần nhất: (không) — nhớ thêm MONGODB_URI trên Vercel khi deploy production
 Link Vercel: https://nextgpu-copy.vercel.app/
 Link GitHub clone: https://github.com/hoquan2007/NEXTGPU-COPY
