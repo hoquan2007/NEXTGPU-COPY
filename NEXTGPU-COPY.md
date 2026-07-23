@@ -24,7 +24,9 @@
 2. **Giống pattern, khác scale** — cấu trúc folder / service / hook giống NextGPU, logic đơn giản hơn nhiều.
 3. **Một luồng xuyên suốt** — luôn giữ trong đầu: `UI → Hook → Service → API → Database`.
 4. **Ghi note tiến độ** — cập nhật mục [Checklist tiến độ](#12-checklist-tiến-độ) cuối file này sau mỗi milestone.
-5. **Chat mới** — paste hoặc `@docs/NEXTGPU-COPY.md` và nói: *“Tiếp tục milestone X”*.
+5. **Chat mới** — paste hoặc `@NEXTGPU-COPY.md` và nói: *“Tiếp tục milestone X”*.
+6. **Luôn giải thích vì sao** — mỗi quyết định (chọn lib, cấu trúc folder, lệnh terminal, cách UI…) phải nói rõ *tại sao làm vậy*, không chỉ *làm cái gì*. Agent/mentor cũng phải giải thích lệnh đã chạy và kết quả.
+7. **Comment trong code bắt buộc** — mọi file code (TS/TSX/CSS…) phải có comment dễ hiểu (ưu tiên tiếng Việt) giải thích từng khối quan trọng: file này làm gì, vì sao dùng pattern này. Rule Cursor: `.cursor/rules/learning-explain-and-comment.mdc`.
 
 ### 0.3 Từ vựng tối thiểu (học trước 30 phút)
 
@@ -548,6 +550,8 @@ mini-nextgpu/
 5. **Đặt tên endpoint** gần với thật (`listMachine`, `deductbalance`) để dễ map.
 6. **Type mọi response** — `type UserProfile = { balance: number; email: string }`.
 7. **Không commit** `.env.local`.
+8. **Comment học tập** — đầu file ghi mục đích; trên mỗi khối logic quan trọng ghi *là gì / vì sao*. Comment phải giúp người mới đọc được, không chỉ lặp tên biến. (Chi tiết: mục [0.2](#02-nguyên-tắc-học) + rule `.cursor/rules/learning-explain-and-comment.mdc`.)
+9. **Giải thích khi đổi code** — trong chat: nói vì sao sửa file này, lệnh nào đã chạy, kết quả ra sao.
 
 ### 6.3 Thứ tự implement một feature mới (mọi milestone)
 
@@ -673,8 +677,10 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 **Agent / mentor nên:**
 
 - Bám milestone hiện tại
-- Giải thích “vì sao giống NextGPU”
+- Giải thích “vì sao giống NextGPU” **và vì sao chọn cách implement đó**
 - Chỉ ra file tương đương trong `nextGPU-assets` sau mỗi feature
+- Viết **comment chi tiết trong code** (tiếng Việt, dễ hiểu) — xem nguyên tắc 0.2 và rule `.cursor/rules/learning-explain-and-comment.mdc`
+- Khi dùng terminal/git: nêu lệnh + kết quả ngắn (thành công / lỗi gì)
 
 ---
 
@@ -702,7 +708,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 - [x] GitHub repo — dùng `NEXTGPU-COPY` (không tạo `mini-nextgpu` riêng): https://github.com/hoquan2007/NEXTGPU-COPY
 - [x] Vercel project connected — https://nextgpu-copy.vercel.app/ (dashboard: [vercel.com/hnquan](https://vercel.com/hnquan))
 - [ ] MongoDB Atlas cluster + Compass — để M3
-- [ ] Clerk application — để M2
+- [x] Clerk application — `learn to do wed` (`app_3Gu49bCAnxZ9i41dg129kAbuFlb`), keys trong `.env.local` via `clerk init`
 - [ ] Supabase project (cho M8)
 - [ ] Postman / Thunder Client — để M3+
 
@@ -710,7 +716,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 - [x] **M0** Hello Next.js trên Vercel — Done: https://nextgpu-copy.vercel.app/
 - [x] **M1** Landing — Done: Header + Hero + Benefits + Footer (`src/components/`)
-- [ ] **M2** Auth + dashboard trống
+- [x] **M2** Auth + dashboard trống — Done: Clerk linked + keys; Login/Sign up/Dashboard/Logout
 - [ ] **M3** Mongo + `listUserProfile`
 - [ ] **M4** Service + Hook + React Query
 - [ ] **M5** Machines list + dashboard shell
@@ -769,19 +775,49 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 
 | Mục | Milestone |
 |-----|-----------|
-| Route `/sign-in` thật (Clerk) | M2 — link CTA tạm trỏ `/sign-in` |
-| Deploy lại Vercel sau push | Sau khi commit/push `main` |
+| Route `/sign-in` thật (Clerk) | M2 — Done (code) |
+| Deploy lại Vercel sau push | Sau khi commit/push `main` + thêm Clerk env trên Vercel |
+
+### Trạng thái M2 — chi tiết (cập nhật 2026-07-23) — **DONE**
+
+**Đã xong**
+
+| Mục | Chi tiết |
+|-----|----------|
+| Clerk app | `learn to do wed` — `app_3Gu49bCAnxZ9i41dg129kAbuFlb` (CLI: `clerk auth login` + `clerk init --app …`) |
+| Package | `@clerk/nextjs` |
+| Env | `.env.local` có publishable + secret (development) + SIGN_IN/UP URL |
+| ClerkProvider | trong `<body>`, `afterSignOutUrl="/"` |
+| Bảo vệ route | `proxy.ts` — public `/`, `/sign-in`, `/sign-up`; protect `/dashboard`; matcher có `/__clerk/:path*` |
+| Auth pages | `/sign-in`, `/sign-up` → sau login về `/dashboard` |
+| Dashboard | “Xin chào, {email}” + `UserButton` |
+| Header | Login + Sign up (signed-out); Dashboard + avatar (signed-in) |
+| CLI | `clerk doctor` OK |
+| Build | `npm run build` OK |
+
+**Việc còn lại (deploy)**
+
+1. Thêm cùng Clerk env trên Vercel (Production + Preview).
+2. Push `main` → test https://nextgpu-copy.vercel.app/
+
+**Chưa làm (milestone sau)**
+
+| Mục | Milestone |
+|-----|-----------|
+| MongoDB + `listUserProfile` / số dư | M3 |
+| React Query + service/hook | M4 |
 
 ### Ghi chú cá nhân (điền tay)
 
 ```text
 Ngày bắt đầu: 2026-07-23
-Milestone hiện tại: M1 Done → sẵn sàng M2 Auth Clerk
-Blocker gần nhất: (không)
+Milestone hiện tại: M2 Done → sẵn sàng M3 Mongo
+Blocker gần nhất: (không) — nhớ thêm Clerk env trên Vercel trước khi test production login
 Link Vercel: https://nextgpu-copy.vercel.app/
 Link GitHub clone: https://github.com/hoquan2007/NEXTGPU-COPY
 Tài khoản Vercel: https://vercel.com/hnquan
 Tài khoản GitHub: https://github.com/hoquan2007
+Clerk app: learn to do wed (app_3Gu49bCAnxZ9i41dg129kAbuFlb)
 ```
 
 ---
@@ -806,7 +842,8 @@ Sau đó: chuyển sang task thật trên `nextGPU-assets` với mentor — bug 
 **Pattern vàng:** `hooks → services → api-endpoints → axios`.  
 **Thứ tự:** M0 môi trường → Landing → Auth → DB/API → React Query → Machines → Rent/Stop → Billing/Rating → Storage → i18n → Đọc code thật.  
 **Không làm sớm:** Vast.ai, multipart S3, Locomotive, dual gateway, static export.  
-**Chat mới:** `@docs/NEXTGPU-COPY.md` + nói milestone hiện tại.
+**Học cách làm:** luôn giải thích *vì sao* + comment chi tiết trong code (rule `.cursor/rules/learning-explain-and-comment.mdc`).  
+**Chat mới:** `@NEXTGPU-COPY.md` + nói milestone hiện tại.
 
 ---
 

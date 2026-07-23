@@ -1,9 +1,23 @@
+/**
+ * Hero.tsx — Phần “viewport đầu” của landing.
+ *
+ * Ngân sách nội dung (theo chiến lược học + design):
+ * brand lớn → 1 headline → 1 câu phụ → nhóm CTA → nền visual full-bleed.
+ * Brand “MiniNextGPU” phải lớn hơn headline để nhận diện rõ.
+ *
+ * Không dùng card / badge nổi / parallax (M1 cố ý đơn giản).
+ *
+ * Milestone: M1.
+ */
 import Link from "next/link";
 
 export function Hero() {
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-gradient-to-br from-hero-from via-hero-via to-hero-to">
-      {/* Full-bleed atmosphere — subtle grid + soft light, not a card */}
+      {/*
+        Lớp trang trí (aria-hidden): không phải nội dung, chỉ tạo atmosphere.
+        Lưới mờ + blob màu — thay cho ảnh/video nặng.
+      */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.14]"
@@ -24,7 +38,9 @@ export function Hero() {
         className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-[40%] bg-[#e9c46a]/15 blur-3xl"
       />
 
+      {/* Nội dung thật: relative để nằm trên lớp trang trí */}
       <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pb-20 pt-28 sm:px-8 sm:pb-24 sm:pt-32">
+        {/* Brand = tín hiệu lớn nhất (không để h1 nhỏ hơn brand) */}
         <p className="animate-fade-up font-[family-name:var(--font-syne)] text-5xl font-extrabold leading-[1.05] tracking-tight text-hero-text sm:text-7xl md:text-8xl">
           MiniNextGPU
         </p>
@@ -35,6 +51,7 @@ export function Hero() {
           Học làm web bằng mini clone NextGPU — đăng nhập, xem máy, thuê và dừng
           giả lập.
         </p>
+        {/* CTA chính → /sign-in (Clerk M2); phụ → cuộn xuống benefits */}
         <div className="animate-fade-up animate-delay-3 mt-10 flex flex-wrap gap-3">
           <Link
             href="/sign-in"

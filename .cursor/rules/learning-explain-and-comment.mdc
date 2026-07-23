@@ -1,0 +1,40 @@
+---
+description: Học tập — luôn giải thích vì sao + comment chi tiết trong code
+alwaysApply: true
+---
+
+# MiniNextGPU — Giải thích & comment bắt buộc
+
+Repo này là **dự án học** cho thực tập sinh. Mọi thay đổi phải giúp người mới hiểu, không chỉ “chạy được”.
+
+## Khi chat / làm việc với agent
+
+1. **Giải thích vì sao** trước hoặc ngay sau mỗi hành động quan trọng: vì sao chọn cách này, vì sao file/folder này, vì sao lệnh này, kết quả lệnh nghĩa là gì.
+2. **Liệt kê lệnh đã chạy** và kết quả ngắn (exit OK / lỗi gì) khi dùng terminal hoặc git.
+3. **Không nhảy cóc** milestone trong `NEXTGPU-COPY.md` trừ khi user yêu cầu rõ.
+4. Trả lời bằng tiếng Việt, dễ hiểu, tránh jargon không giải thích.
+
+## Khi viết / sửa code
+
+1. Thêm **comment tiếng Việt** (hoặc song ngữ ngắn) giải thích ý từng khối quan trọng: import để làm gì, component này là gì, prop/state nghĩa là gì, vì sao dùng class/API đó.
+2. Comment phải **dạy được người mới**, không chỉ lặp lại tên biến (`// set count` là không đủ).
+3. Cú pháp đúng ngôn ngữ:
+   - TS/JS: `//` hoặc `/* */`
+   - JSX/TSX: `{/* ... */}` cho trong JSX; `//` phía trên khối
+   - CSS: `/* ... */`
+4. File mới: header comment ngắn ở đầu file (mục đích file + liên hệ milestone nếu có).
+5. Không xóa comment học tập hiện có trừ khi user yêu cầu.
+
+## Ví dụ
+
+```tsx
+// ❌ BAD — không giải thích
+export function Header() { ... }
+
+// ✅ GOOD
+/**
+ * Header — thanh điều hướng trên cùng landing.
+ * absolute để nằm đè lên Hero (full-bleed), không chiếm chỗ layout.
+ */
+export function Header() { ... }
+```
