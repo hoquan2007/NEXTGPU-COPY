@@ -709,7 +709,7 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 ### Milestones
 
 - [x] **M0** Hello Next.js trên Vercel — Done: https://nextgpu-copy.vercel.app/
-- [ ] **M1** Landing
+- [x] **M1** Landing — Done: Header + Hero + Benefits + Footer (`src/components/`)
 - [ ] **M2** Auth + dashboard trống
 - [ ] **M3** Mongo + `listUserProfile`
 - [ ] **M4** Service + Hook + React Query
@@ -751,11 +751,32 @@ Hãy tiếp tục đúng chiến lược trong file đó, đừng nhảy cóc sa
 - `app/page.tsx` = trang Home `/` (UI mặc định create-next-app).
 - `.env.local` chỉ trên máy bạn — Vercel sẽ có **Environment Variables** riêng khi cần (M2+). Đừng commit secret; đừng dùng prefix `NEXT_PUBLIC_` cho `MONGODB_URI`.
 
+### Trạng thái M1 — chi tiết (cập nhật 2026-07-23) — **DONE**
+
+**Đã xong**
+
+| Mục | Chi tiết |
+|-----|----------|
+| Header | Logo MiniNextGPU + link Pricing (`#benefits`) / Login (`/sign-in`) |
+| Hero | Brand lớn + headline “Thuê GPU cloud” + CTA “Bắt đầu” + atmosphere full-bleed |
+| Benefits | 3 lợi ích text-only (`id="benefits"`) — không card / parallax |
+| Footer | Copyright học tập + GitHub / Login |
+| Fonts | Syne (display) + DM Sans (body); `lang="vi"` |
+| Cấu trúc | `src/components/layout/{Header,Footer}.tsx`, `src/components/home/{Hero,Benefits}.tsx` |
+| Build | `npm run build` OK — route `/` static |
+
+**Chưa làm (để milestone sau)**
+
+| Mục | Milestone |
+|-----|-----------|
+| Route `/sign-in` thật (Clerk) | M2 — link CTA tạm trỏ `/sign-in` |
+| Deploy lại Vercel sau push | Sau khi commit/push `main` |
+
 ### Ghi chú cá nhân (điền tay)
 
 ```text
 Ngày bắt đầu: 2026-07-23
-Milestone hiện tại: M0 Done → sẵn sàng M1 Landing
+Milestone hiện tại: M1 Done → sẵn sàng M2 Auth Clerk
 Blocker gần nhất: (không)
 Link Vercel: https://nextgpu-copy.vercel.app/
 Link GitHub clone: https://github.com/hoquan2007/NEXTGPU-COPY
